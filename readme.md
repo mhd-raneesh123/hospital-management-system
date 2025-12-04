@@ -97,3 +97,18 @@ The server supports a pluggable LLM integration. By default, it is configured fo
 ##  Development Notes
 * **Time Windows:** Appointment booking on the frontend is restricted to specific windows (09:00-12:00 and 13:00-16:00) and enforces 10-minute slot boundaries.
 * **Security:** This is a demo application. For production, implement password hashing (e.g., bcrypt), rate limiting, and proper session management.
+
+
+## screenshots
+# login page
+<img width="1129" height="427" alt="Screenshot 2025-10-13 235624" src="https://github.com/user-attachments/assets/3d45d25a-6fd2-452a-94ac-a646d1acd74e" />
+
+# patient portal
+<img width="1884" height="981" alt="Screenshot 2025-10-13 235716" src="https://github.com/user-attachments/assets/7a16c580-8e0f-43a3-8e31-ec3978351542" />
+
+
+# chat bot
+<img width="1902" height="967" alt="Screenshot 2025-10-13 235849" src="https://github.com/user-attachments/assets/a4647733-8800-46ec-a2f7-db0ef16b06cf" />
+
+# doctor portal
+<img width="1635" height="962" alt="Screenshot 2025-10-13 235925" src="https://github.com/user-attachments/assets/75800a42-0445-4d97-a632-341bebecd812" />
