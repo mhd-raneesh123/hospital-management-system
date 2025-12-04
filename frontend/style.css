@@ -1,0 +1,395 @@
+/* frontend/style.css - Futuristic theme with light/dark modes */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=Inter:wght@300;400;600&display=swap');
+
+:root {
+    /* Neutral tokens used across both themes */
+    --sidebar-width: 260px;
+    --radius: 12px;
+    --glass-blur: 8px;
+    --transition-fast: 180ms ease-out;
+}
+
+/* Light theme */
+.theme-light {
+    --bg: linear-gradient(180deg, #f5f9ff 0%, #eef6ff 100%);
+    --bg-solid: #0f1720; /* fallback */
+    --card: rgba(255,255,255,0.06);
+    --card-2: rgba(255,255,255,0.08);
+    --glass: rgba(255,255,255,0.06);
+    --text: #0b1220;
+    --muted: #5b6b7a;
+    --accent: linear-gradient(90deg,#00e0ff 0%, #6a00ff 100%);
+    --accent-flat: #00d1ff;
+    --success: #16a34a;
+    --danger: #ef4444;
+    --border: rgba(255,255,255,0.06);
+
+    /* compatibility aliases used elsewhere in the stylesheet */
+    --bg-dark: #f5f9ff;
+    --text-light: #0b1220;
+    --bg-card: rgba(255,255,255,0.96);
+    --border-color: rgba(0,0,0,0.08);
+    --text-primary: #041226;
+    --text-secondary: #5b6b7a;
+    --input-bg: #ffffff;
+}
+
+/* Dark theme (default) */
+.theme-dark {
+    --bg: radial-gradient(1200px 600px at 10% 10%, rgba(58,10,116,0.12), transparent 7%), linear-gradient(180deg, #07070a 0%, #0b0f14 100%);
+    --bg-solid: #07070a;
+    --card: rgba(255,255,255,0.03);
+    --card-2: rgba(255,255,255,0.025);
+    --glass: rgba(255,255,255,0.03);
+    --text: #e6f7ff;
+    --muted: #9aa7b2;
+    --accent: linear-gradient(90deg,#00e0ff 0%, #9b59ff 100%);
+    --accent-flat: #37bcf7;
+    --success: #4ade80;
+    --danger: #ff6b6b;
+    --border: rgba(255,255,255,0.04);
+
+    /* compatibility aliases used elsewhere in the stylesheet */
+    --bg-dark: #07070a;
+    --text-light: #e6f7ff;
+    --bg-card: rgba(255,255,255,0.03);
+    --border-color: rgba(255,255,255,0.06);
+    --text-primary: #e6f7ff;
+    --text-secondary: #9aa7b2;
+    --input-bg: rgba(255,255,255,0.02);
+}
+
+/* Apply theme to document root (default to dark if nothing set) */
+html { background: var(--bg); transition: background var(--transition-fast); }
+body { font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Orbitron', sans-serif; color: var(--text); }
+
+/* Theme toggle: inset pill with embossed labels and large knob (matches provided image) */
+.theme-toggle {
+    position: fixed;
+    right: 18px;
+    top: 18px;
+    z-index: 2000;
+    width: auto;
+    height: auto;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+.theme-toggle .toggle-track {
+    position: relative;
+    width: 110px; /* compact width */
+    height: 36px; /* compact height */
+    border-radius: 22px;
+    padding: 0 8px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-card);
+    box-shadow: inset 3px 3px 8px rgba(0,0,0,0.28), inset -3px -3px 8px rgba(255,255,255,0.02);
+    overflow: hidden;
+}
+
+.theme-toggle .toggle-track .label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%) translateX(-6px);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.36);
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+    transition: transform 260ms cubic-bezier(.22,.9,.34,1), opacity 200ms ease;
+}
+.theme-toggle .toggle-track .label-light { left: 8px; transform-origin: left center; }
+.theme-toggle .toggle-track .label-dark { right: 8px; transform: translateY(-50%) translateX(6px); transform-origin: right center; }
+
+/* Large knob with inset icon */
+.theme-toggle .toggle-track .knob {
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    width: 28px; /* small knob */
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #ffffff, #eef3fb);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.34), -3px -3px 8px rgba(255,255,255,0.44);
+    transition: transform 220ms cubic-bezier(.22,.9,.34,1), box-shadow 120ms ease;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.theme-toggle .toggle-track .knob .knob-icon { width: 12px; height: 12px; display: block; background-size: contain; background-repeat: no-repeat; }
+
+/* Dark mode: knob slides to right and uses moon-styled surface */
+.theme-toggle.is-light .toggle-track .knob { transform: translateX(calc(110px - 6px - 28px)); background: linear-gradient(180deg,#fff7d9,#fff3c2); box-shadow: 5px 5px 12px rgba(0,0,0,0.22), -3px -3px 8px rgba(255,255,255,0.4); }
+
+/* Labels contrast in dark/light states */
+.theme-toggle.is-light .toggle-track { background: #f0f4fb; box-shadow: inset 6px 6px 14px rgba(0,0,0,0.06), inset -6px -6px 14px rgba(255,255,255,0.8); }
+.theme-toggle.is-light .toggle-track .label-light { opacity: 1; transform: translateY(-50%) translateX(0); color: rgba(10,24,40,0.65); }
+.theme-toggle.is-light .toggle-track .label-dark { opacity: 0; transform: translateY(-50%) translateX(8px); }
+.theme-toggle:not(.is-light) .toggle-track .label-dark { opacity: 1; transform: translateY(-50%) translateX(0); color: rgba(255,255,255,0.72); }
+.theme-toggle:not(.is-light) .toggle-track .label-light { opacity: 0; transform: translateY(-50%) translateX(-8px); }
+
+/* Icon backgrounds inside knob for states */
+.theme-toggle:not(.is-light) .toggle-track .knob .knob-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23ffffff"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zm10.48 14.32l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM12 4V1h-1v3h1zm6.58 2.58l1.41-1.41-1.79-1.8-1.41 1.41 1.79 1.8zM4 11H1v1h3v-1zm19 0h-3v1h3v-1zM6.76 19.16l-1.79 1.8 1.41 1.41 1.8-1.79-1.42-1.42zM12 20v3h1v-3h-1zM18.36 6.64A7.97 7.97 0 0 0 12 4c-4.41 0-8 3.59-8 8 0 3.87 2.72 7.11 6.36 7.86A9.99 9.99 0 0 1 18.36 6.64z"/></svg>'); }
+.theme-toggle.is-light .toggle-track .knob .knob-icon { background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23041226"><path d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.8 1.42-1.42zm10.48 14.32l1.79 1.8 1.41-1.41-1.8-1.79-1.4 1.4zM12 4V1h-1v3h1zm6.58 2.58l1.41-1.41-1.79-1.8-1.41 1.41 1.79 1.8zM4 11H1v1h3v-1zm19 0h-3v1h3v-1zM6.76 19.16l-1.79 1.8 1.41 1.41 1.8-1.79-1.42-1.42zM12 20v3h1v-3h-1zM18.36 6.64A7.97 7.97 0 0 0 12 4c-4.41 0-8 3.59-8 8 0 3.87 2.72 7.11 6.36 7.86A9.99 9.99 0 0 1 18.36 6.64z"/></svg>'); }
+
+/* Small responsive tweaks */
+@media (max-width: 768px) {
+    .theme-toggle { right: 8px; top: 8px; }
+    .theme-toggle .toggle-track { width: 96px; height: 36px; padding: 0 6px; }
+    .theme-toggle .toggle-track .knob { left: 4px; top: 4px; width: 26px; height: 26px; }
+    .theme-toggle.is-light .toggle-track .knob { transform: translateX(calc(96px - 4px - 26px)); }
+    .theme-toggle .toggle-track .label { display: none; }
+}
+
+
+/* Small UI adjustments for futuristic look */
+.app-container { background: transparent; }
+.sidebar { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); backdrop-filter: blur(var(--glass-blur)); border-right: 1px solid var(--border); }
+.portal-title { font-family: 'Orbitron', sans-serif; color: var(--accent-flat); }
+.nav-link-custom { color: var(--text); }
+.nav-link-custom.active { background: linear-gradient(90deg, rgba(0,210,255,0.12), rgba(155,89,255,0.08)); color: #fff; border-right: 5px solid var(--accent-flat); }
+
+/* Improve contrast for active nav in light theme */
+.theme-light .nav-link-custom.active {
+    background: linear-gradient(90deg, rgba(0,170,210,0.18), rgba(80,100,200,0.12));
+    color: #041226 !important; /* darker text for readability in light mode */
+    box-shadow: inset 0 0 0 2px rgba(0,210,255,0.06);
+}
+.custom-card { background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius: var(--radius); border: 1px solid var(--border); box-shadow: 0 6px 18px rgba(2,6,23,0.6); }
+.card-title-custom { color: var(--accent-flat); font-family: 'Orbitron', sans-serif; }
+.data-value { color: var(--text); }
+
+/* Buttons */
+.btn-primary { background: var(--accent-flat) !important; border-color: transparent !important; color: #041226 !important; }
+.btn-success { background: linear-gradient(90deg,#16a34a,#06b6d4) !important; border-color: transparent !important; }
+
+/* Tables and lists */
+.table thead th { background: rgba(255,255,255,0.02) !important; color: var(--text) !important; }
+.list-group-item.bg-transparent, .list-group-item.border-0 { color: var(--text) !important; background: transparent !important; }
+
+/* Room buttons neon variants */
+.room-available { background: linear-gradient(90deg,#00e07a,#16a34a) !important; color: #061010; }
+.room-unavailable { background: linear-gradient(90deg,#ff6b6b,#b91c1c) !important; }
+.room-booked-by-self { background: linear-gradient(90deg,#7b61ff,#00e0ff) !important; }
+
+/* Inputs */
+.form-control, .form-select { background: rgba(255,255,255,0.02) !important; color: var(--text) !important; border: 1px solid var(--border) !important; }
+
+/* Small responsive tweaks */
+@media (max-width: 768px) {
+    .sidebar { display: none !important; }
+    .main-content { margin-left: 0 !important; }
+    .theme-toggle { right: 12px; top: 12px; }
+    .theme-toggle .toggle-track { width: 90px; padding: 0 8px; }
+    .theme-toggle .toggle-track .knob { left: 3px; top: 2px; width: 32px; height: 32px; }
+    .theme-toggle.is-light .toggle-track .knob { transform: translateX(calc(90px - 3px - 32px)); }
+}
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+}
+
+/* --- Layout: Sidebar and Main Content --- */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--bg-card);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1000;
+}
+
+.portal-title {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.nav-link-custom {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--text);
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: 500;
+}
+
+.nav-link-custom:hover {
+    background-color: rgba(255,255,255,0.03);
+    color: var(--text-primary);
+}
+
+.nav-link-custom.active {
+    background: linear-gradient(90deg, rgba(0,210,255,0.08), rgba(155,89,255,0.05));
+    color: #fff; 
+    border-right: 5px solid var(--accent-flat);
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Main Content Area */
+.main-content {
+    margin-left: var(--sidebar-width);
+    flex-grow: 1;
+    padding: 40px;
+}
+
+/* --- Card and Text Styling --- */
+.custom-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.card-title-custom {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.card-subtitle-custom {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.data-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 10px;
+}
+
+.data-value {
+    color: var(--text);
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Login/Form Specific Styles (Dark Theme) */
+.login-container {
+    max-width: 450px;
+    margin: 100px auto;
+}
+
+.login-card {
+    background-color: var(--bg-card) !important;
+    color: var(--text);
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.form-control, .form-select {
+    background-color: var(--input-bg) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.btn-primary {
+    background-color: var(--text-primary) !important;
+    border-color: var(--text-primary) !important;
+    color: var(--bg-dark) !important;
+    font-weight: 600;
+}
+/* frontend/style.css - Contrast Fixes */
+
+/* Fixes black text in inputs/selects by forcing them to light gray */
+/* single .form-control/.form-select declaration retained above */
+/* Fixes black text inside standard table cells */
+.table td, .table th {
+    color: var(--text-light) !important;
+}
+
+/* Fixes Placeholder Text Color (important for date/time inputs) */
+.form-control::placeholder { 
+    color: var(--text-secondary) !important; 
+    opacity: 1; /* Ensure opacity is not low */
+}
+
+/* --- STATUS AND ALERT CONTRAST FIXES --- */
+.text-primary {
+    color: var(--text-primary) !important; 
+}
+.text-danger {
+    color: #ff6b6b !important; 
+}
+.text-success {
+    color: #4cd137 !important; 
+}
+.text-warning {
+    color: #ffeaa7 !important; 
+}
+
+
+/* Room Button Styles (Pill shape) */
+.room-btn {
+    font-weight: 600;
+    margin-right: 8px;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 50px; 
+    transition: background-color 0.2s, opacity 0.2s;
+    border: none;
+}
+
+/* Custom Room Colors */
+.room-available { background-color: #28a745 !important; }
+.room-unavailable { background-color: #dc3545 !important; }
+.room-booked-by-self { background-color: #6f42c1 !important; }
+
+
+/* Table Styling for Dark Theme */
+.table {
+    --bs-table-bg: var(--bg-card);
+    --bs-table-color: var(--text-light);
+}
+
+.table thead th {
+    background-color: #343a40 !important;
+    color: white !important;
+}
+
+/* Ensure list items (used for department doctor listing) are visible on dark background */
+.list-group-item.bg-transparent, .list-group-item.border-0 {
+    color: var(--text-light) !important;
+    background-color: transparent !important;
+}

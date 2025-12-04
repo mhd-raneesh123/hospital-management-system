@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMS Patient Portal</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<body>
+    <div class="app-container">
+
+        <div id="sidebar" class="sidebar">
+            <div class="portal-title">
+                Patient Portal
+                <p style="font-size: 0.7rem; color: var(--text-secondary); margin: 0;" id="sidebar-id">Guest</p>
+            </div>
+            
+            <nav id="nav-tabs">
+                <a href="#profile" class="nav-link-custom active" data-target="profile-view">
+                    <span class="material-icons me-2">person</span> My Profile
+                </a>
+                <a href="#appointments" class="nav-link-custom" data-target="appointments-view">
+                    <span class="material-icons me-2">event</span> Appointments
+                </a>
+                <a href="#records" class="nav-link-custom" data-target="records-view">
+                    <span class="material-icons me-2">medical_services</span> Medical Records
+                </a>
+                <a href="#bills" class="nav-link-custom" data-target="bills-view">
+                    <span class="material-icons me-2">payments</span> Bills & Payments
+                </a>
+                <a href="#rooms" class="nav-link-custom" data-target="rooms-view">
+                    <span class="material-icons me-2">hotel</span> Room Booking
+                </a>
+                <a href="#departments" class="nav-link-custom" data-target="departments-view">
+                    <span class="material-icons me-2">business</span> Departments
+                </a>
+                <a href="#assistant" class="nav-link-custom" data-target="assistant-view">
+                    <span class="material-icons me-2">chat</span> Health Assistant
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="#" id="logout-btn-sidebar" class="nav-link-custom text-danger">
+                    <span class="material-icons me-2">logout</span> Logout
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            
+            <div id="login-section" class="login-container">
+                <div class="card p-4 login-card">
+                    <h2 class="text-center mb-4">Hospital Management System</h2>
+                    <p class="text-center text-secondary mb-4">Sign in to access your account</p>
+                    
+                    <form id="login-form">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name:</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dob" class="form-label">DOB (YYYY-MM-DD):</label>
+                            <input type="date" id="dob" class="form-control" required>
+                        </div>
+                        
+                        <div id="registration-fields" class="d-none">
+                            <hr class="my-3 border-secondary">
+                            <p class="text-secondary fw-bold">New Registration:</p>
+                            <div class="mb-3">
+                                <label for="gender" class="form-label">Gender:</label>
+                                <select id="gender" class="form-select"> 
+                                    <option value="" disabled selected>Select Gender</option>
+                                    <option value="M">Male</option>
+                                    <option value="F">Female</option>
+                                    <option value="O">Other</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address:</label>
+                                <input type="text" id="address" class="form-control"> 
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Sign In</button>
+                    </form>
+                    <p id="login-message" class="mt-3 fw-bold text-center"></p>
+                </div>
+            </div>
+
+            <div id="dashboard-section" style="display: none;">
+                <h1 id="welcome-message" class="mb-4 text-light">My Profile</h1>
+                
+                <div id="dashboard-views">
+                    
+                    <div id="profile-view" class="dashboard-view active-view">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="custom-card">
+                                    <h5 class="card-title-custom">Personal Information</h5>
+                                    <p class="card-subtitle-custom">Your basic personal details</p>
+                                    <div id="personal-info-display"></div>
+                                </div>
+                                <div class="custom-card">
+                                    <h5 class="card-title-custom">Medical Information</h5>
+                                    <p class="card-subtitle-custom">Your medical details and history</p>
+                                    <div id="medical-info-display"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="custom-card">
+                                    <h5 class="card-title-custom">Emergency Contact</h5>
+                                    <p class="card-subtitle-custom">Placeholder Information</p>
+                                    <div id="emergency-contact-display"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="appointments-view" class="dashboard-view d-none">
+                        <div class="custom-card">
+    <h5 class="card-title-custom">Book New Appointment</h5>
+    <form id="appointment-form" class="row g-3">
+        <div class="col-md-4">
+            <select id="doctor-select" class="form-select" required></select>
+        </div>
+        <div class="col-md-3">
+            <input type="date" id="appt-date" class="form-control" required title="Select Appointment Date">
+        </div>
+        <div class="col-md-3">
+            <input type="time" id="appt-time" class="form-control" required title="Select Appointment Time">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Book</button>
+        </div>
+    </form>
+    <p id="appointment-message" class="mt-3 fw-bold"></p>
+    
+    <h5 class="card-title-custom mt-4">Upcoming and Past Appointments</h5>
+    <div id="appointments-list">Loading appointments...</div>
+</div>
+                    </div>
+
+                    <div id="records-view" class="dashboard-view d-none">
+                        <div class="custom-card">
+                            <h5 class="card-title-custom">Medical History Overview</h5>
+                            <div id="records-list">Loading medical records...</div>
+                        </div>
+                    </div>
+
+                    <div id="timeline-view" class="dashboard-view d-none">
+                        <div class="custom-card">
+                            <h5 class="card-title-custom">Health Timeline</h5>
+                            <p class="card-subtitle-custom">A chronological view of your diagnoses, visits, and prescriptions. Click an event to expand details.</p>
+                            <div id="timeline-container" class="mt-3">
+                                <div id="timeline-list">Loading timeline...</div>
+                                <div class="d-flex justify-content-between align-items-center mt-3">
+                                    <button id="timeline-prev" class="btn btn-sm btn-outline-light">Previous</button>
+                                    <div id="timeline-pager" class="text-secondary small">Page 1</div>
+                                    <button id="timeline-next" class="btn btn-sm btn-outline-light">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="bills-view" class="dashboard-view d-none">
+                        <div class="custom-card">
+                            <h5 class="card-title-custom">Billing Information</h5>
+                            <div id="bills-list">Loading bills...</div>
+                        </div>
+                    </div>
+
+                    <div id="notifications-view" class="dashboard-view d-none">
+                        <div class="custom-card">
+                            <h5 class="card-title-custom">Notifications</h5>
+                            <p class="card-subtitle-custom">Your recent alerts, reminders and messages from the clinic.</p>
+                            <div id="notifications-list" class="mt-3">Loading notifications...</div>
+                        </div>
+                    </div>
+
+                    <div id="rooms-view" class="dashboard-view d-none">
+                        <div class="custom-card">
+                            <h5 class="card-title-custom">Ward and Room Booking</h5>
+                            <div id="wards-list">Loading wards and rooms...</div>
+                            <p id="booking-message" class="mt-3 fw-bold"></p>
+                        </div>
+                    </div>
+
+                    <div id="departments-view" class="dashboard-view d-none">
+                        <div class="custom-card">
+                            <h5 class="card-title-custom">Department and Doctor List</h5>
+                            <div id="departments-list">Loading departments...</div>
+                        </div>
+                    </div>
+
+                    <div id="assistant-view" class="dashboard-view d-none">
+                        <div class="custom-card">
+                            <h5 class="card-title-custom">Health Assistant</h5>
+                            <p class="card-subtitle-custom">Ask about symptoms, diet suggestions, and basic medical questions. This assistant uses medical history and prescriptions from your record to provide contextual advice. It does not replace professional medical care.</p>
+                            <div id="chat-container" class="mt-3">
+                                <div id="chat-messages" class="chat-messages" style="height:300px; overflow:auto; border:1px solid rgba(255,255,255,0.06); padding:10px; background:rgba(0,0,0,0.25);"></div>
+                                <div class="input-group mt-2">
+                                    <input type="text" id="chat-input" class="form-control" placeholder="Describe symptoms or ask a question...">
+                                    <button id="chat-send" class="btn btn-primary">Send</button>
+                                </div>
+                                <p class="mt-2 text-muted small">Note: If the server is not configured with an LLM API key, responses will be a general-purpose fallback.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- Action Modal used by the app (id's expected by scripts) -->
+    <div class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-light">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="actionModalLabel">Action</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="actionModalBody">Loading...</div>
+                <div class="modal-footer">
+                    <button type="button" id="modal-cancel-btn" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="modal-confirm-btn" class="btn btn-primary">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Theme toggle (shared with doctor portal) -->
+    <div class="theme-toggle" id="themeToggle" title="Toggle Theme" role="button" tabindex="0" aria-pressed="false" aria-label="Toggle theme">
+        <div class="toggle-track" aria-hidden="true">
+            <span class="sun" aria-hidden="true"></span>
+            <span class="moon" aria-hidden="true"></span>
+            <div class="knob" aria-hidden="true"><span class="knob-icon" aria-hidden="true"></span></div>
+            <span class="label label-light">LIGHT MODE</span>
+            <span class="label label-dark">DARK MODE</span>
+        </div>
+    </div>
+</body>
+</html>
