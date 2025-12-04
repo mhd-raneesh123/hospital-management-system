@@ -1,5 +1,5 @@
 
-# Hospital Management (Simple Demo)
+# Hospital Management
 
 This repository contains a small hospital management demo (Node.js + Express backend, MySQL database, and a static frontend). It includes a simple doctor and patient portal, appointment booking, prescriptions, and a pluggable LLM assistant integration. Notifications are implemented in-memory for development; see the Notifications section for how to wire a real provider.
 
